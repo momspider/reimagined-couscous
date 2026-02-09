@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Spotify ni Mhe</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(270deg, #D496A7, violet, #F1DEDE);
+    background-size: 800% 800%;
+    animation: rainbow 10s ease infinite;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.player {
+    background: rgba(255,255,255,0.9);
+    border-radius: 20px;
+    padding: 25px;
+    width: 420px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.player img {
+    width: 280px;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.song-title { font-size: 26px; font-weight: bold; }
+.artist { font-size: 18px; color: #555; margin-bottom: 15px; }
+
+audio { width: 100%; margin: 15px 0; }
+
+.lyrics-box {
+    height: 200px;
+    overflow: hidden;
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    position: relative;
+    font-family: "Times New Roman", serif;
+    font-size: 16px;
+    display: none;
+}
+
+.lyrics-content {
+    position: absolute;
+    width: 100%;
+    top: 100%;
+}
+</style>
+</head>
+
+<body>
+
+
+<div class="player" data-index="0">
+    <img src="omy.jpg">
+    <div class="song-title">Kalapastangan</div>
+    <div class="artist">fitterkarma</div>
+
+    <audio class="audioPlayer" controls>
+        <source src="fitterkarma - Kalapastangan (Lyrics).mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="lyrics-box">
+        <div class="lyrics-content">
+            <p>Oras nang sambahin ang ngalan Mo</p>
+            <p>Para mabuhay habang-buhay sa puso't isipan Mo</p>
+            <p>Sino ba ako para mapansin Mo?</p>
+            <p>Mga dalangin ko sa 'Yo, sana'y pakinggan Mo</p>
+            <p>Pa'no ba ako magiging 'sang santo</p>
+            <p>Para makasama Kita diyan sa tabi ng trono Mo?</p>
+            <p>Ilan pang pagsubok ang daraanan ko</p>
+            <p>Bago ako makaranas ng mga milagro Mo?</p>
+            <p>Oh, ang langit ay nandito lamang pala sa lupa</p>
+            <p>At ang impiyerno ay nasa isipan ko, at pinalimot ng 'Yong ganda</p>
+            <p>Umaawit ang mga anghel, umaawit ang mga anghel</p>
+            <p>Nagdiriwang sila nang makasama Kita</p>
+            <p>Oh, oh-oh-oh</p>
+            <p>Mamamatay akong nakangiti</p>
+            <p>Kapag Ikaw ang nasa aking tabi</p>
+            <p>Kalapastangan ang 'di Ka ibigin</p>
+            <p>Kung ang mundo ay biglang gugunawin</p>
+            <p>Ikaw ang una kong hahanapin</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="player" data-index="1">
+    <img src="hih.webp">
+    <div class="song-title">Kanibalismo</div>
+    <div class="artist">fitterkarma</div>
+
+    <audio class="audioPlayer" controls>
+        <source src="can.mp4" type="audio/mpeg">
+    </audio>
+
+    <div class="lyrics-box">
+        <div class="lyrics-content">
+            <p>Ayo'y magmo-motor</p>
+            <p>Sa mga kalsada ng Siquijor</p>
+            <p>At magsigawan tayo na parang nasa horror</p>
+            <p>Tayo'y magkatay ng tao</p>
+            <p>Sabay isalang at iadobo</p>
+            <p>Ibabalik kita nang buong-buo</p>
+            <p>Pangako 'yon sa 'yo</p>
+            <p>Sa 'yo lang ang puso ko</p>
+            <p>Kahit kainin mo</p>
+            <p>Magdodroga tayo</p>
+            <p>Kimi lang, bawal 'yon</p>
+            <p>Pumapatay lang ako ng kalungkutan ko</p>
+            <p>Kanibalismo, 'di ka matiis</p>
+            <p>Oh, ika'y mami-miss</p>
+            <p>Pag-ibig mong kay tamis</p>
+        </div>
+    </div>
+</div>
+
+<script>
+const players = document.querySelectorAll(".player");
+const audios = document.querySelectorAll(".audioPlayer");
+
+audios.forEach((audio, i) => {
+    const player = players[i];
+    const lyricsBox = player.querySelector(".lyrics-box");
+    const lyricsContent = player.querySelector(".lyrics-content");
+
+    audio.addEventListener("play", () => {
+
+     
+        audios.forEach((otherAudio, j) => {
+            if (j !== i) {
+                otherAudio.pause();
+                otherAudio.currentTime = 0;
+                const otherPlayer = players[j];
+                otherPlayer.querySelector(".lyrics-box").style.display = "none";
+            }
+        });
+
+        lyricsBox.style.display = "block";
+
+        const duration = audio.duration || 60;
+
+        lyricsContent.style.transition = "none";
+        lyricsContent.style.top = "100%";
+        lyricsContent.offsetHeight;
+
+        lyricsContent.style.transition = `top ${duration}s linear`;
+        lyricsContent.style.top = `-${lyricsContent.offsetHeight}px`;
+    });
+
+    audio.addEventListener("pause", () => {
+        const computedTop = window.getComputedStyle(lyricsContent).top;
+        lyricsContent.style.transition = "none";
+        lyricsContent.style.top = computedTop;
+    });
+
+    audio.addEventListener("ended", () => {
+        lyricsBox.style.display = "none";
+        lyricsContent.style.transition = "none";
+        lyricsContent.style.top = "100%";
+
+      
+        if (audios[i + 1]) {
+            audios[i + 1].play();
+        }
+    });
+});
+</script>
+
+</body>
+</html>
