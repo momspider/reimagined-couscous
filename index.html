@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Music Player</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(
+                270deg,
+               #D496A7, violet, #F1DEDE
+            );
+            background-size: 800% 800%;
+            animation: rainbow 10s ease infinite;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .player {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 25px;
+            width: 420px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .player img {
+            width: 280px;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        .song-title {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .artist {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+
+        .lyrics-box {
+            height: 200px;
+            overflow: hidden;
+            border: 2px solid #000;
+            border-radius: 10px;
+            padding: 10px;
+            background: #f9f9f9;
+            position: relative;
+            font-family: "Times New Roman", serif;
+            font-size: 16px;
+            display: none;
+        }
+
+        .lyrics-content {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+        }
+
+        .links {
+            margin-top: 15px;
+        }
+
+        .links a {
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            color: #000;
+        }
+
+        .links a:hover {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="player">
+
+    <img src="omy.jpg" alt="Artist Image">
+
+    <div class="song-title">Kalapastangan</div>
+    <div class="artist">fitterkarma</div>
+
+    <audio id="audioPlayer" controls>
+        <source src="fitterkarma - Kalapastangan (Lyrics).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+ 
+    <div class="lyrics-box" id="lyricsBox">
+        <div class="lyrics-content" id="lyricsContent">
+
+            <p>Oras nang sambahin ang ngalan Mo</p>
+            <p>Para mabuhay habang-buhay sa puso't isipan Mo</p>
+            <p>Sino ba ako para mapansin Mo?</p>
+            <p>Mga dalangin ko sa 'Yo, sana'y pakinggan Mo</p>
+
+            <p>Pa'no ba ako magiging 'sang santo</p>
+            <p>Para makasama Kita diyan sa tabi ng trono Mo?</p>
+            <p>Ilan pang pagsubok ang daraanan ko</p>
+            <p>Bago ako makaranas ng mga milagro Mo?</p>
+
+            <p>Oh, ang langit ay nandito lamang pala sa lupa</p>
+            <p>At ang impiyerno ay nasa isipan ko, at pinalimot ng 'Yong ganda</p>
+            <p>Umaawit ang mga anghel, umaawit ang mga anghel</p>
+            <p>Nagdiriwang sila nang makasama Kita, huwag Ka sanang mawawala</p>
+
+            <p>Oh, oh-oh-oh</p>
+            <p>Oh, ooh</p>
+
+            <p>Mamamatay akong nakangiti</p>
+            <p>Kapag Ikaw ang nasa aking tabi</p>
+
+            <p>Mabubuhay akong nagsisisi</p>
+            <p>Kapag 'sang araw hindi Kita mapapangiti</p>
+
+            <p>Kalapastangan ang 'di Ka ibigin</p>
+            <p>Kalokohan ang 'di Ka isipin</p>
+
+            <p>Kung ang mundo ay biglang gugunawin</p>
+            <p>Ikaw ang una kong hahanapin</p>
+
+            <p>Ooh</p>
+            <p>Ooh</p>
+
+        </div>
+    </div>
+
+    <div class="links">
+        <a href="https://www.google.com" target="_blank">Google</a>
+        <a href="#">Another Link</a>
+    </div>
+
+</div>
+
+<script>
+const audio = document.getElementById("audioPlayer");
+const lyricsBox = document.getElementById("lyricsBox");
+const lyricsContent = document.getElementById("lyricsContent");
+
+audio.addEventListener("play", () => {
+    lyricsBox.style.display = "block";
+
+    const duration = audio.duration;
+
+   
+    lyricsContent.style.transition = "none";
+    lyricsContent.style.top = "100%";
+
+    
+    lyricsContent.offsetHeight;
+
+    
+    lyricsContent.style.transition = `top ${duration}s linear`;
+    lyricsContent.style.top = `-${lyricsContent.offsetHeight}px`;
+});
+
+audio.addEventListener("pause", () => {
+    
+    const computedTop = window.getComputedStyle(lyricsContent).top;
+    lyricsContent.style.transition = "none";
+    lyricsContent.style.top = computedTop;
+});
+
+audio.addEventListener("ended", () => {
+    lyricsBox.style.display = "none";
+    lyricsContent.style.transition = "none";
+    lyricsContent.style.top = "100%";
+});
+</script>
+
+</body>
+</html>
